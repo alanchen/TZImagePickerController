@@ -13,6 +13,7 @@
 #import "TZAssetModel.h"
 #import "TZImagePickerController.h"
 #import "TZPhotoPreviewController.h"
+#import "TZLocalization.h"
 
 @interface TZVideoPlayerController () {
     AVPlayer *_player;
@@ -30,7 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor blackColor];
-    self.navigationItem.title = @"视频预览";
+    self.navigationItem.title = TZPHOTO_TITLE_PREVIEW;
     [self configMoviePlayer];
 }
 
@@ -84,7 +85,7 @@
     _okButton.frame = CGRectMake(self.view.tz_width - 44 - 12, 0, 44, 44);
     _okButton.titleLabel.font = [UIFont systemFontOfSize:16];
     [_okButton addTarget:self action:@selector(okButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    [_okButton setTitle:@"确定" forState:UIControlStateNormal];
+    [_okButton setTitle:TZPHOTO_CONFIRM forState:UIControlStateNormal];
     TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
     [_okButton setTitleColor:imagePickerVc.oKButtonTitleColorNormal forState:UIControlStateNormal];
     

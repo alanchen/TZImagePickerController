@@ -13,6 +13,7 @@
 #import "TZAssetCell.h"
 #import "UIView+Layout.h"
 #import "TZImageManager.h"
+#import "TZLocalization.h"
 
 @interface TZImagePickerController () {
     NSTimer *_timer;
@@ -100,7 +101,7 @@
             _tipLable.textColor = [UIColor blackColor];
             NSString *appName = [[NSBundle mainBundle].infoDictionary valueForKey:@"CFBundleDisplayName"];
             if (!appName) appName = [[NSBundle mainBundle].infoDictionary valueForKey:@"CFBundleName"];
-            _tipLable.text = [NSString stringWithFormat:@"请在%@的\"设置-隐私-照片\"选项中，\r允许%@访问你的手机相册。",[UIDevice currentDevice].model,appName];
+            _tipLable.text = [NSString stringWithFormat:TZPHOTO_ASK_ALBUM,[UIDevice currentDevice].model,appName];
             [self.view addSubview:_tipLable];
             
             _timer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(observeAuthrizationStatusChange) userInfo:nil repeats:YES];
@@ -161,10 +162,10 @@
 - (void)showAlertWithTitle:(NSString *)title {
     if (iOS8Later) {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
-        [alertController addAction:[UIAlertAction actionWithTitle:@"我知道了" style:UIAlertActionStyleDefault handler:nil]];
+        [alertController addAction:[UIAlertAction actionWithTitle:TZPHOTO_GOTIT style:UIAlertActionStyleDefault handler:nil]];
         [self presentViewController:alertController animated:YES completion:nil];
     } else {
-        [[[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil] show];
+        [[[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:TZPHOTO_GOTIT otherButtonTitles:nil, nil] show];
     }
 }
 
@@ -186,7 +187,7 @@
         _HUDLable = [[UILabel alloc] init];
         _HUDLable.frame = CGRectMake(0,40, 120, 50);
         _HUDLable.textAlignment = NSTextAlignmentCenter;
-        _HUDLable.text = @"正在处理...";
+        _HUDLable.text = TZPHOTO_HANDLING;
         _HUDLable.font = [UIFont systemFontOfSize:15];
         _HUDLable.textColor = [UIColor whiteColor];
         
@@ -266,7 +267,7 @@
         UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(3, 0, 50, 44)];
         [backButton setImage:[UIImage imageNamedFromMyBundle:@"navi_back.png"] forState:UIControlStateNormal];
         backButton.imageEdgeInsets = UIEdgeInsetsMake(0, -5, 0, 0);
-        [backButton setTitle:@"返回" forState:UIControlStateNormal];
+        [backButton setTitle:TZPHOTO_BACK forState:UIControlStateNormal];
         backButton.titleLabel.font = [UIFont systemFontOfSize:15];
         [backButton addTarget:self action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem* backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
@@ -299,8 +300,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.title = @"照片";
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
+    self.navigationItem.title = TZPHOTO_TITLE_PHOTO;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:TZPHOTO_CANCEL style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
     [self configTableView];
 }
 

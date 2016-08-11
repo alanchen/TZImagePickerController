@@ -10,6 +10,8 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "TZAssetModel.h"
 #import "TZImagePickerController.h"
+#import "TZLocalization.h"
+
 
 @interface TZImageManager ()
 @property (nonatomic, strong) ALAssetsLibrary *assetLibrary;
@@ -72,7 +74,7 @@ static CGFloat TZScreenScale;
         
         PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumUserLibrary options:nil];
         for (PHAssetCollection *collection in smartAlbums) {
-            if ([collection.localizedTitle isEqualToString:@"Camera Roll"] || [collection.localizedTitle isEqualToString:@"相机胶卷"] ||  [collection.localizedTitle isEqualToString:@"所有照片"] || [collection.localizedTitle isEqualToString:@"All Photos"]) {
+            if ([collection.localizedTitle isEqualToString:@"Camera Roll"] || [collection.localizedTitle isEqualToString:TZPHOTO_ROLL] ||  [collection.localizedTitle isEqualToString:TZPHOTO_ALLPHOTOS] || [collection.localizedTitle isEqualToString:@"All Photos"]) {
                 PHFetchResult *fetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:option];
                 model = [self modelWithResult:fetchResult name:collection.localizedTitle];
                 if (completion) completion(model);
@@ -83,7 +85,7 @@ static CGFloat TZScreenScale;
         [self.assetLibrary enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
             if ([group numberOfAssets] < 1) return;
             NSString *name = [group valueForProperty:ALAssetsGroupPropertyName];
-            if ([name isEqualToString:@"Camera Roll"] || [name isEqualToString:@"相机胶卷"] || [name isEqualToString:@"所有照片"] || [name isEqualToString:@"All Photos"]) {
+            if ([name isEqualToString:@"Camera Roll"] || [name isEqualToString:TZPHOTO_ROLL] || [name isEqualToString:TZPHOTO_ALLPHOTOS] || [name isEqualToString:@"All Photos"]) {
                 model = [self modelWithResult:group name:name];
                 if (completion) completion(model);
                 *stop = YES;
@@ -113,7 +115,7 @@ static CGFloat TZScreenScale;
             PHFetchResult *fetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:option];
             if (fetchResult.count < 1) continue;
             if ([collection.localizedTitle containsString:@"Deleted"] || [collection.localizedTitle isEqualToString:@"最近删除"]) continue;
-            if ([collection.localizedTitle isEqualToString:@"Camera Roll"] || [collection.localizedTitle isEqualToString:@"相机胶卷"] || [collection.localizedTitle isEqualToString:@"所有照片"] || [collection.localizedTitle isEqualToString:@"All Photos"]) {
+            if ([collection.localizedTitle isEqualToString:@"Camera Roll"] || [collection.localizedTitle isEqualToString:TZPHOTO_ROLL] || [collection.localizedTitle isEqualToString:TZPHOTO_ALLPHOTOS] || [collection.localizedTitle isEqualToString:@"All Photos"]) {
                 [albumArr insertObject:[self modelWithResult:fetchResult name:collection.localizedTitle] atIndex:0];
             } else {
                 [albumArr addObject:[self modelWithResult:fetchResult name:collection.localizedTitle]];
@@ -124,7 +126,7 @@ static CGFloat TZScreenScale;
         for (PHAssetCollection *collection in albums) {
             PHFetchResult *fetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:option];
             if (fetchResult.count < 1) continue;
-            if ([collection.localizedTitle isEqualToString:@"My Photo Stream"] || [collection.localizedTitle isEqualToString:@"我的照片流"]) {
+            if ([collection.localizedTitle isEqualToString:@"My Photo Stream"] || [collection.localizedTitle isEqualToString:TZPHOTO_STREAM]) {
                 if (albumArr.count) {
                     [albumArr insertObject:[self modelWithResult:fetchResult name:collection.localizedTitle] atIndex:1];
                 } else {
@@ -142,9 +144,9 @@ static CGFloat TZScreenScale;
             }
             if ([group numberOfAssets] < 1) return;
             NSString *name = [group valueForProperty:ALAssetsGroupPropertyName];
-            if ([name isEqualToString:@"Camera Roll"] || [name isEqualToString:@"相机胶卷"] || [name isEqualToString:@"所有照片"] || [name isEqualToString:@"All Photos"]) {
+            if ([name isEqualToString:@"Camera Roll"] || [name isEqualToString:TZPHOTO_ROLL] || [name isEqualToString:TZPHOTO_ALLPHOTOS] || [name isEqualToString:@"All Photos"]) {
                 [albumArr insertObject:[self modelWithResult:group name:name] atIndex:0];
-            } else if ([name isEqualToString:@"My Photo Stream"] || [name isEqualToString:@"我的照片流"]) {
+            } else if ([name isEqualToString:@"My Photo Stream"] || [name isEqualToString:TZPHOTO_STREAM]) {
                 if (albumArr.count) {
                     [albumArr insertObject:[self modelWithResult:group name:name] atIndex:1];
                 } else {
@@ -639,14 +641,14 @@ static CGFloat TZScreenScale;
 - (NSString *)getNewAlbumName:(NSString *)name {
     if (iOS8Later) {
         NSString *newName;
-        if ([name rangeOfString:@"Roll"].location != NSNotFound)         newName = @"相机胶卷";
-        else if ([name rangeOfString:@"Stream"].location != NSNotFound)  newName = @"我的照片流";
-        else if ([name rangeOfString:@"Added"].location != NSNotFound)   newName = @"最近添加";
-        else if ([name rangeOfString:@"Selfies"].location != NSNotFound) newName = @"自拍";
-        else if ([name rangeOfString:@"shots"].location != NSNotFound)   newName = @"截屏";
-        else if ([name rangeOfString:@"Videos"].location != NSNotFound)  newName = @"视频";
-        else if ([name rangeOfString:@"Panoramas"].location != NSNotFound)  newName = @"全景照片";
-        else if ([name rangeOfString:@"Favorites"].location != NSNotFound)  newName = @"个人收藏";
+        if ([name rangeOfString:@"Roll"].location != NSNotFound)         newName = TZPHOTO_ROLL;
+        else if ([name rangeOfString:@"Stream"].location != NSNotFound)  newName = TZPHOTO_STREAM;
+        else if ([name rangeOfString:@"Added"].location != NSNotFound)   newName = TZPHOTO_ADDED;
+        else if ([name rangeOfString:@"Selfies"].location != NSNotFound) newName = TZPHOTO_SELFIES;
+        else if ([name rangeOfString:@"shots"].location != NSNotFound)   newName = TZPHOTO_SHOTS;
+        else if ([name rangeOfString:@"Videos"].location != NSNotFound)  newName = TZPHOTO_VIDEO;
+        else if ([name rangeOfString:@"Panoramas"].location != NSNotFound)  newName = TZPHOTO_PANORAMAS;
+        else if ([name rangeOfString:@"Favorites"].location != NSNotFound)  newName = TZPHOTO_FAVORITES;
         else newName = name;
         return newName;
     } else {
