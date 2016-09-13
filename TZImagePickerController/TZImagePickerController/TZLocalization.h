@@ -26,7 +26,7 @@
 
 #define TZPHOTO_ASK_ALBUM   NSLocalizedString(@"請在%1$@的\"設定-隱私權-照片\"選項中，\r允許%2$@訪問您的手機相簿。", @"TZPHOTO_ASK_ALBUM")
 #define TZPHOTO_ASK_CAMERA  NSLocalizedString(@"請到\"設定-隱私權-相機\"選項中，\r允許使用您的相機。", @"TZPHOTO_ASK_CAMERA")
-#define TZPHOTO_MAX_PHOTOS  NSLocalizedString(@"您最多只選擇%1$zd張照片", @"TZPHOTO_MAX_PHOTOS")
+#define TZPHOTO_MAX_PHOTOS  NSLocalizedString(@"您最多只能選擇%1$zd張照片", @"TZPHOTO_MAX_PHOTOS")
 
 #define TZPHOTO_PROMPT_1    NSLocalizedString(@"選擇照片時不能選擇影片", @"TZPHOTO_PROMPT_1")
 #define TZPHOTO_PROMPT_2    NSLocalizedString(@"無法使用相機", @"TZPHOTO_PROMPT_2")
