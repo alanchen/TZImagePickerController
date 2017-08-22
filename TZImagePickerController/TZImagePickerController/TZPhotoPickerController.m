@@ -235,8 +235,12 @@ static CGSize AssetGridThumbnailSize;
 #pragma mark - Click Event
 
 - (void)cancel {
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
+    [self.navigationController dismissViewControllerAnimated:YES completion:^{
+        if (imagePickerVc.imagePickerControllerDidCancelDismissHandle) {
+            imagePickerVc.imagePickerControllerDidCancelDismissHandle();
+        }
+    }];
     if ([imagePickerVc.pickerDelegate respondsToSelector:@selector(imagePickerControllerDidCancel:)]) {
         [imagePickerVc.pickerDelegate imagePickerControllerDidCancel:imagePickerVc];
     }
@@ -292,7 +296,11 @@ static CGSize AssetGridThumbnailSize;
                 tzImagePickerVc.didFinishPickingPhotosWithInfosHandle(photos,assets,_isSelectOriginalPhoto,infoArr);
             }
             [tzImagePickerVc hideProgressHUD];
-            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+            [self.navigationController dismissViewControllerAnimated:YES completion:^{
+                if (tzImagePickerVc.imagePickerControllerDidFinishDismissHandle) {
+                    tzImagePickerVc.imagePickerControllerDidFinishDismissHandle();
+                }
+            }];
         }];
     }
 }
