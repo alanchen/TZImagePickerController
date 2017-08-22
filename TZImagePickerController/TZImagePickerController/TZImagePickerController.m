@@ -131,7 +131,11 @@
             if (weakSelf.didFinishPickingPhotosHandle) {
                 weakSelf.didFinishPickingPhotosHandle(photos,assets,isSelectOriginalPhoto);
             }
-            [weakSelf dismissViewControllerAnimated:YES completion:nil];
+            [weakSelf dismissViewControllerAnimated:YES completion:^{
+                if (weakSelf.imagePickerControllerDidDismissHandle) {
+                    weakSelf.imagePickerControllerDidDismissHandle();
+                }
+            }];
         }];
     }
     return self;
@@ -345,8 +349,12 @@
 #pragma mark - Click Event
 
 - (void)cancel {
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
+    [imagePickerVc dismissViewControllerAnimated:YES completion:^{
+        if (imagePickerVc.imagePickerControllerDidDismissHandle) {
+            imagePickerVc.imagePickerControllerDidDismissHandle();
+        }
+    }];
     if ([imagePickerVc.pickerDelegate respondsToSelector:@selector(imagePickerControllerDidCancel:)]) {
         [imagePickerVc.pickerDelegate imagePickerControllerDidCancel:imagePickerVc];
     }
