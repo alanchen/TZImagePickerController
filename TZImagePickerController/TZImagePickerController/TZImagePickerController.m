@@ -132,8 +132,8 @@
                 weakSelf.didFinishPickingPhotosHandle(photos,assets,isSelectOriginalPhoto);
             }
             [weakSelf dismissViewControllerAnimated:YES completion:^{
-                if (weakSelf.imagePickerControllerDidDismissHandle) {
-                    weakSelf.imagePickerControllerDidDismissHandle();
+                if (weakSelf.imagePickerControllerDidFinishDismissHandle) {
+                    weakSelf.imagePickerControllerDidFinishDismissHandle();
                 }
             }];
         }];
@@ -351,8 +351,8 @@
 - (void)cancel {
     TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
     [imagePickerVc dismissViewControllerAnimated:YES completion:^{
-        if (imagePickerVc.imagePickerControllerDidDismissHandle) {
-            imagePickerVc.imagePickerControllerDidDismissHandle();
+        if (imagePickerVc.imagePickerControllerDidCancelDismissHandle) {
+            imagePickerVc.imagePickerControllerDidCancelDismissHandle();
         }
     }];
     if ([imagePickerVc.pickerDelegate respondsToSelector:@selector(imagePickerControllerDidCancel:)]) {

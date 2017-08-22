@@ -89,7 +89,10 @@
 @property (nonatomic, copy) void (^didFinishPickingPhotosHandle)(NSArray<UIImage *> *photos,NSArray *assets,BOOL isSelectOriginalPhoto);
 @property (nonatomic, copy) void (^didFinishPickingPhotosWithInfosHandle)(NSArray<UIImage *> *photos,NSArray *assets,BOOL isSelectOriginalPhoto,NSArray<NSDictionary *> *infos);
 @property (nonatomic, copy) void (^imagePickerControllerDidCancelHandle)();
-@property (nonatomic, copy) void (^imagePickerControllerDidDismissHandle)();
+
+@property (nonatomic, copy) void (^imagePickerControllerDidCancelDismissHandle)();
+@property (nonatomic, copy) void (^imagePickerControllerDidFinishDismissHandle)();
+
 
 // If user picking a video, this handle will be called.
 // If system version > iOS8,asset is kind of PHAsset class, else is ALAsset class.
