@@ -87,8 +87,6 @@ static CGSize AssetGridThumbnailSize;
         }
     }
     // [self resetCachedAssets];
-    
-    self.navigationItem.hidesBackButton = true; // Can not got back to album selection.
 }
 
 - (void)initSubviews {
