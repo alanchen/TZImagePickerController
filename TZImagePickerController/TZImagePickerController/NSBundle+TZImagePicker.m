@@ -31,7 +31,7 @@
         } else {
             language = @"en";
         }
-        language = @"en"; // Alan hard code
+        language = @"Base"; // Alan hard code
         bundle = [NSBundle bundleWithPath:[[NSBundle tz_imagePickerBundle] pathForResource:language ofType:@"lproj"]];
     }
     NSString *value1 = [bundle localizedStringForKey:key value:value table:nil];
